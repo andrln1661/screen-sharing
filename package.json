@@ -1,0 +1,18 @@
+{
+  "name": "screen-sharing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "client": "cd client && npm run dev",
+    "server": "cd server && npm run dev",
+    "client-preview": "cd client && npm run preview",
+    "server-build": "cd server && npm run build",
+    "client-build": "cd client && npm run build",
+    "build": "concurrently -c \"green,blue\" \"npm:server-build\" \"npm:client-build\" ",
+    "start": "concurrently -c \"green,blue\" \"npm:server\" \"npm:client\"",
+    "preview": "cd server && npm start"
+  },
+  "author": "",
+  "license": "ISC"
+}
