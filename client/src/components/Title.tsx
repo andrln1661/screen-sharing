@@ -12,6 +12,9 @@ function Title({ children: children }: Props): JSX.Element {
 export default Title;
 
 const HeadLine = styled.h1`
-  font-size: 34px;
+  font-size: 20px;
   color: white;
+  width: 100%;
+  text-align: center;
+  padding: 5px;
 `;

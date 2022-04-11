@@ -1,18 +1,23 @@
-import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import Title from "../components/Title";
 import VideoPlayer from "../components/VideoPlayer";
-import useVideoPlayer from "../services/hooks/useVideoPlayer";
+import CustomButton from "../components/CustomButton";
 
 function Room() {
+  const navigate = useNavigate();
   const { roomId } = useParams();
-  const videoPlayer = useVideoPlayer(null);
 
   return (
     <RoomContainer>
-      <Title>RoomId: {roomId}</Title>
       <VideoPlayer />
+      <CustomButton
+        onClick={(event) => {
+          event.preventDefault();
+          navigate("/");
+        }}
+      >
+        List Rooms
+      </CustomButton>
     </RoomContainer>
   );
 }
@@ -27,4 +32,5 @@ const RoomContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 20px;
 `;
