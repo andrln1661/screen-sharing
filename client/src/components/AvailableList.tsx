@@ -1,24 +1,24 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { Room } from "../types";
 
-interface Props {
-  rooms?: string[];
-}
-
-function AvailableList({ rooms: rooms }: Props) {
+function AvailableList({ rooms }: { rooms: Room[] }) {
   const navigate = useNavigate();
 
   return (
     <RoomsListContainer>
-      {rooms?.map((roomId) => {
+      {rooms?.map(({ id, created }) => {
         return (
-          <RoomItem key={roomId}>
-            <RoomId>{roomId}</RoomId>
+          <RoomItem key={id}>
+            <RoomInfo>
+              <RoomId>{id}</RoomId>
+              <CreatedAt>{created.toUTCString}</CreatedAt>
+            </RoomInfo>
             <RoomJoin
               onClick={(event) => {
                 event.preventDefault();
-                navigate(roomId);
+                navigate(id);
               }}
             >
               Join
@@ -45,6 +45,8 @@ const RoomsListContainer = styled.ul`
   padding: 5px 5px 5px 15px;
 `;
 
+const RoomInfo = styled.div``;
+
 const RoomItem = styled.li`
   width: 100%;
   font-size: 15px;
@@ -69,4 +71,8 @@ const RoomJoin = styled.button`
     background: white;
     color: black;
   }
+`;
+
+const CreatedAt = styled.span`
+  color: white;
 `;

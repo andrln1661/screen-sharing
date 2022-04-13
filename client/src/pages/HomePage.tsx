@@ -1,15 +1,29 @@
-import React, { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { v4 } from "uuid";
+import { Socket } from "socket.io-client";
+import { socket } from "../services/socket/socket";
 
 import Title from "../components/Title";
 import CustomButton from "../components/CustomButton";
 import AvailableList from "../components/AvailableList";
+import { Rooms, Room } from "../types";
+import { SocketContext } from "../App";
 
-function HomePage(): JSX.Element {
-  const [rooms, updateRooms] = useState();
+function HomePage() {
+  const [rooms, updateRooms] = useState<Room[]>([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    socket.emit("get-rooms");
+    socket.on("get-rooms", (loadedrooms: Rooms): void => {
+      const populated: Room[] = Object.keys(loadedrooms).map(
+        (roomId) => loadedrooms[roomId]
+      );
+      updateRooms(populated);
+    });
+  }, []);
 
   return (
     <HomeContainer>

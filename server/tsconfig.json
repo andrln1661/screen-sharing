@@ -2,7 +2,9 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "CommonJS",
-    "outDir": "./lib",
+    "rootDir": "./src",
+    "strict": true,
+    "outDir": "../lib",
     "esModuleInterop": true
   },
   "include": ["src/**/*.ts"]

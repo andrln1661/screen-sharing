@@ -1,33 +1,17 @@
 import styled from "styled-components";
+import { useParams } from "react-router-dom";
 
 import VideoControls from "./VideoControls";
 import Title from "../Title";
-import { useParams } from "react-router-dom";
 
-function Controls({
-  chooseScreen,
-  mute,
-  pipF,
-  fullscreen,
-  screen,
-}: {
-  chooseScreen: Function;
-  pipF: Function;
-  mute: Function;
-  fullscreen: Function;
-  screen: MediaStream | undefined | null;
-}): JSX.Element {
+import { Handlers } from "../../types";
+
+function Controls({ handlers }: { handlers: Handlers }): JSX.Element {
   const { roomId } = useParams();
   return (
     <Container data-state="hidden">
       <Title>Room ID: {roomId}</Title>
-      <VideoControls
-        chooseScreen={chooseScreen}
-        mute={mute}
-        pipF={pipF}
-        fullscreen={fullscreen}
-        screen={screen}
-      />
+      <VideoControls handlers={handlers} />
     </Container>
   );
 }

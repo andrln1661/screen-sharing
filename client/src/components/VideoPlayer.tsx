@@ -1,56 +1,16 @@
-import { useRef, useState, useEffect } from "react";
 import styled from "styled-components";
 import Controls from "./controls/Controls";
+import useVideoElement from "../services/hooks/useVideoElement";
 
 function VideoPlayer() {
-  const [screen, setScreen] = useState<MediaStream>();
-  const player = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    console.log(screen);
-    // @ts-ignore
-    player.current.srcObject = screen;
-    //
-  }, [screen]);
-
-  const chooseScreen = async () => {
-    try {
-      const mediaStream = await navigator.mediaDevices.getDisplayMedia();
-      setScreen(mediaStream);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  const mute = async () => {};
-  const pipF = async () => {
-    if (document.pictureInPictureElement) {
-      document.exitPictureInPicture();
-    } else {
-      if (document.pictureInPictureEnabled) {
-        player.current?.requestPictureInPicture();
-      }
-    }
-  };
-  const fullscreen = async () => {
-    if (document.fullscreenElement) {
-      document.exitFullscreen();
-    } else {
-      if (document.fullscreenEnabled) {
-        player.current?.requestFullscreen();
-      }
-    }
-  };
+  const { player, handlers } = useVideoElement();
 
   return (
     <Container>
+      {/* @ts-ignore */}
       <Player ref={player} autoPlay preload="metadata" />
-      <Controls
-        chooseScreen={chooseScreen}
-        mute={mute}
-        pipF={pipF}
-        fullscreen={fullscreen}
-        screen={screen}
-      />
+
+      <Controls handlers={handlers} />
     </Container>
   );
 }

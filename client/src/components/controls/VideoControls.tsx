@@ -13,6 +13,8 @@ import PictureInPictureIcon from "@mui/icons-material/PictureInPicture";
 import ScreenShareIcon from "@mui/icons-material/ScreenShare";
 import StopScreenShareIcon from "@mui/icons-material/StopScreenShare";
 
+import { Handlers } from "../../types";
+
 const PlayToggle = ControlToggle(<ScreenShareIcon />, <StopScreenShareIcon />);
 const MuteToggle = ControlToggle(<VolumeUpIcon />, <VolumeOffIcon />);
 const FullscreenToggle = ControlToggle(
@@ -28,32 +30,13 @@ interface Togglers {
   [toggler: string]: boolean;
 }
 
-function VideoControls({
-  chooseScreen,
-  pipF,
-  mute,
-  fullscreen,
-  screen,
-}: {
-  chooseScreen: Function;
-  pipF: Function;
-  mute: Function;
-  fullscreen: Function;
-  screen: MediaStream | undefined | null;
-}) {
+function VideoControls({ handlers }: { handlers: Handlers }) {
   const [togglers, updateTogglers] = useState<Togglers>({
     play: true,
     mute: true,
     fullscreen: true,
     pictureInPicture: true,
   });
-
-  useEffect(() => {
-    updateTogglers((prevState) => ({
-      ...prevState,
-      fullscreen: screen ? true : false,
-    }));
-  }, [screen]);
 
   const handleToggle = (toggler: string, sideFunction: Function): Function => {
     return async (event: React.MouseEvent<HTMLElement>): Promise<void> => {
@@ -70,20 +53,20 @@ function VideoControls({
     <Container>
       <PlayToggle
         enabled={togglers.play}
-        onClick={handleToggle("play", chooseScreen)}
+        onClick={handleToggle("play", handlers.chooseScreen)}
       />
       <MuteToggle
         enabled={togglers.mute}
-        onClick={handleToggle("mute", mute)}
+        onClick={handleToggle("mute", handlers.mute)}
       />
       <VolumeSlider></VolumeSlider>
       <PictureInPictureToggle
         enabled={togglers.pictureInPicture}
-        onClick={handleToggle("pictureInPicture", pipF)}
+        onClick={handleToggle("pictureInPicture", handlers.pipF)}
       />
       <FullscreenToggle
         enabled={togglers.fullscreen}
-        onClick={handleToggle("fullscreen", fullscreen)}
+        onClick={handleToggle("fullscreen", handlers.fullscreen)}
       />
     </Container>
   );
